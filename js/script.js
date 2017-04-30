@@ -34,7 +34,7 @@ $(document).ready(function() {
         var password = $("#password").val();
         if (username && password) {
             // AJAX
-            $.post("http://open-commerce.herokuapp.com/api/signup", {
+            $.post("https://open-commerce.herokuapp.com/api/signup", {
                     username: username,
                     password: password
                 },
@@ -55,7 +55,7 @@ $(document).ready(function() {
         var username = $("#username").val();
         var password = $("#password").val();
         if (username && password) {
-            $.post("http://open-commerce.herokuapp.com/api/login", {
+            $.post("https://open-commerce.herokuapp.com/api/login", {
                     username: username,
                     password: password
                 },
