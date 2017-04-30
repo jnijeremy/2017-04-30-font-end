@@ -1,11 +1,37 @@
+
+var token;
+
+// helper to delete cookie in browser
+function deleteCookie(name) {
+    document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+}
+
+function getCookie(name) {
+  var value = "; " + document.cookie;
+  var parts = value.split("; " + name + "=");
+  if (parts.length == 2) return parts.pop().split(";").shift();
+}
+
+function updateNavigationView() {
+    if (token) {
+        $("#loginNav").hide();
+        $("#logoutNav").show();
+    } else {
+        $("#loginNav").show();
+        $("#logoutNav").hide();
+    }
+}
+
 $(document).ready(function() {
-    // console.log("lalala");
+
+    token = getCookie("x-access-token");
+
+    updateNavigationView();
+
     $("#signupBtn").click(function(event) {
-        // console.log(event);
         event.preventDefault();
         var username = $("#username").val();
         var password = $("#password").val();
-        // console.log(username + " " + password);
         if (username && password) {
             // AJAX
             $.post("http://open-commerce.herokuapp.com/api/signup", {
@@ -13,7 +39,6 @@ $(document).ready(function() {
                     password: password
                 },
                 function(response) {
-                    // console.log(response);
                     if (response.success) {
                         alert("signup successful!");
                     } else {
@@ -35,7 +60,6 @@ $(document).ready(function() {
                     password: password
                 },
                 function(response) {
-                    // console.log(response);
                     if (response.success) {
                         var cookie = "x-access-token=" + response.token;
                         document.cookie = cookie;
@@ -48,4 +72,11 @@ $(document).ready(function() {
             alert("please provide a username and password for login!");
         }
     });
+
+    $("#logoutNav").click(function(event) {
+        event.preventDefault();
+        deleteCookie('x-access-token');
+        window.location.href = "/index.html";
+    });
+
 });
